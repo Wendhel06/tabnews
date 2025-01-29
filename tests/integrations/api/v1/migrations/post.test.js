@@ -1,4 +1,4 @@
-import database from "infra/database";
+import database from "infra/database.js";
 import { waitForAllServices } from "tests/orchestrator.js";
 
 beforeAll(async () => {
