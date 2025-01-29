@@ -1,8 +1,8 @@
 import database from "infra/database";
-import orchestrator from "tests/orchestrator";
+import { waitForAllServices } from "tests/orchestrator";
 
 beforeAll(async () => {
-  await orchestrator.waitForAllServices();
+  await waitForAllServices();
   await database.query("drop schema public  cascade; create schema public;");
 });
 
