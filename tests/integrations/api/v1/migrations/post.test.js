@@ -1,9 +1,8 @@
-import { query } from "infra/database.js";
-import { waitForAllServices } from "tests/orchestrator.js";
+import { clearDatabase, waitForAllServices } from "tests/orchestrator.js";
 
 beforeAll(async () => {
   await waitForAllServices();
-  await query("drop schema public cascade; create schema public;");
+  await clearDatabase();
 });
 
 describe("POST /api/v1/migrations", () => {
