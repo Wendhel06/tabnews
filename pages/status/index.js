@@ -6,7 +6,7 @@ async function fetchApi(key) {
   return responseBody;
 }
 
-const urlApi = "http://localhost:3000/api/v1/status";
+const urlApi = "/api/v1/status";
 
 export default function StatusPage() {
   return (
