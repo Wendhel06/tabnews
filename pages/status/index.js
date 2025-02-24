@@ -6,7 +6,7 @@ async function fetchApi(key) {
   return responseBody;
 }
 
-const urlApi = "/api/v1/status";
+const urlApiStatus = "/api/v1/status";
 
 export default function StatusPage() {
   return (
@@ -18,7 +18,7 @@ export default function StatusPage() {
 }
 
 function UpdatedAt() {
-  const { isLoading, data } = useSWR(urlApi, fetchApi, {
+  const { isLoading, data } = useSWR(urlApiStatus, fetchApi, {
     refreshInterval: 2000,
   });
 
