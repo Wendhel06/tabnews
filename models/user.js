@@ -1,5 +1,5 @@
 import { query } from "infra/database.js";
-import { ValidationError } from "infra/errors.js";
+import { ValidationError, NotFoundError } from "infra/errors.js";
 
 export async function create(userInputValues) {
   await validateUniqEmail(userInputValues.email);
@@ -67,6 +67,35 @@ export async function create(userInputValues) {
       ],
     });
 
+    return results.rows[0];
+  }
+}
+
+export async function findOneByUsername(username) {
+  const userFound = await selectRunQuery(username);
+  return userFound;
+
+  async function selectRunQuery(username) {
+    const results = await query({
+      text: `
+        SELECT
+          *
+        FROM
+          users
+        WHERE
+          LOWER(username) = LOWER($1)
+        LIMIT
+          1    
+      ;`,
+      values: [username],
+    });
+
+    if (results.rowCount === 0) {
+      throw new NotFoundError({
+        message: "Username não encontrado.",
+        action: "Verifique se digitou o nome do username corretamente.",
+      });
+    }
     return results.rows[0];
   }
 }
