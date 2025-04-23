@@ -5,6 +5,8 @@ import {
   clearDatabase,
   runPendingMigrations,
 } from "tests/orchestrator.js";
+import { findOneByUsername } from "models/user.js";
+import { compare } from "models/password.js";
 
 beforeAll(async () => {
   await waitForAllServices();
@@ -35,7 +37,7 @@ describe("POST /api/v1/users", () => {
         id: responseBody.id,
         username: "wendhel07",
         email: "wendhelalves7@gmail.com",
-        password: "92142867",
+        password: responseBody.password,
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
       });
@@ -43,6 +45,21 @@ describe("POST /api/v1/users", () => {
       expect(uuidVersion(responseBody.id)).toBe(4);
       expect(Date.parse(responseBody.created_at)).not.toBeNaN();
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
+
+      const userInDataBase = await findOneByUsername("wendhel07");
+
+      const correctPasswordMatch = await compare(
+        "92142867",
+        userInDataBase.password,
+      );
+
+      const incorrectPasswordMatch = await compare(
+        "SenhaErrada",
+        userInDataBase.password,
+      );
+
+      expect(correctPasswordMatch).toBe(true);
+      expect(incorrectPasswordMatch).toBe(false);
     });
 
     test("With duplicated 'email'", async () => {
