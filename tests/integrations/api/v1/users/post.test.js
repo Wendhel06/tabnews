@@ -85,7 +85,7 @@ describe("POST /api/v1/users", () => {
         },
         //Como se fosse um formulário enviado por um usuário no front end.
         body: JSON.stringify({
-          username: "usuario1",
+          username: "usuario2",
           email: "Duplicado@gmail.com",
           password: "92142867",
         }),
@@ -96,7 +96,7 @@ describe("POST /api/v1/users", () => {
       expect(responseBody2).toEqual({
         name: "ValidationError",
         message: "O email informado já está sendo utilizado.",
-        action: "Utilize outro email para realizar o cadastro.",
+        action: "Utilize outro email para realizar esta operação.",
         status_code: 400,
       });
     });
@@ -135,7 +135,7 @@ describe("POST /api/v1/users", () => {
       expect(response3Body).toEqual({
         name: "ValidationError",
         message: "O username informado já está sendo utilizado.",
-        action: "Utilize outro username para realizar o cadastro.",
+        action: "Utilize outro username para realizar esta operação.",
         status_code: 400,
       });
     });
