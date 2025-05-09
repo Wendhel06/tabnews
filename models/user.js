@@ -13,7 +13,7 @@ export async function create(userInputValues) {
         INSERT INTO 
           users (username, email, password)
         VALUES
-          ($1,$2, $3)
+          ($1,$2,$3)
         RETURNING
           *
         ;`,

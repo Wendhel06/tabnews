@@ -4,6 +4,7 @@ import {
   waitForAllServices,
   clearDatabase,
   runPendingMigrations,
+  createUser,
 } from "tests/orchestrator.js";
 
 beforeAll(async () => {
@@ -15,22 +16,11 @@ beforeAll(async () => {
 describe("GET /api/v1/users/[username]", () => {
   describe("anonymous user", () => {
     test("With exact case match", async () => {
-      const responseCaseMatch = await fetch(
-        "http://localhost:3000/api/v1/users",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: "MesmoCase",
-            email: "mesmocase7@gmail.com",
-            password: 92142867,
-          }),
-        },
-      );
-
-      expect(responseCaseMatch.status).toBe(201);
+      await createUser({
+        username: "MesmoCase",
+        email: "mesmocase7@gmail.com",
+        password: "92142867",
+      });
 
       const responseCaseMatch2 = await fetch(
         "http://localhost:3000/api/v1/users/MesmoCase",
@@ -55,22 +45,11 @@ describe("GET /api/v1/users/[username]", () => {
     });
 
     test("With case missmatch", async () => {
-      const responseCaseMissMatch = await fetch(
-        "http://localhost:3000/api/v1/users",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: "CaseDiferente",
-            email: "case.diferente@gmail.com",
-            password: 92142867,
-          }),
-        },
-      );
-
-      expect(responseCaseMissMatch.status).toBe(201);
+      await createUser({
+        username: "CaseDiferente",
+        email: "case.diferente@gmail.com",
+        password: "92142867",
+      });
 
       const responseCaseMissMatch2 = await fetch(
         "http://localhost:3000/api/v1/users/casediferente",
