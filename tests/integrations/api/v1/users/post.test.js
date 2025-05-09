@@ -25,7 +25,7 @@ describe("POST /api/v1/users", () => {
         body: JSON.stringify({
           username: "wendhel07",
           email: "wendhelalves7@gmail.com",
-          password: 92142867,
+          password: "92142867",
         }),
       });
 
